@@ -1,0 +1,27 @@
+# 1. Security & Credentials (CRITICAL)
+.env
+*.pem
+credentials.json
+key.json
+
+# 2. ADK & GCP Temporary Files
+.adk/
+*_tmp*/
+.gcloud/
+
+# 3. Python Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+anaconda3/
+
+# 4. Python Cache & Compiled Files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 5. OS Generated Files (Windows/Mac)
+.DS_Store
+Thumbs.db
