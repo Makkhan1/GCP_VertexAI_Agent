@@ -1,2 +1,5 @@
 google-adk
 python-dotenv
+langchain-pinecone
+langchain-google-vertexai
+tavily-python

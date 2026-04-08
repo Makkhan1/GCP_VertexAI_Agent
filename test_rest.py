@@ -9,7 +9,7 @@ async def main():
     )
 
     # 2. Your deployed Fact Checker Resource ID
-    agent_resource_name = "projects/611053773155/locations/us-central1/reasoningEngines/6605356236038733824"
+    agent_resource_name = "projects/611053773155/locations/us-central1/reasoningEngines/2432516094582325248"
 
     print("🔍 Connecting to your Cloud Fact Checker...")
     remote_app = client.agent_engines.get(name=agent_resource_name)
