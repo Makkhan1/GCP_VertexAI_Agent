@@ -1,6 +1,4 @@
-***
 
-```markdown
 # 🧠 Enterprise RAG Architecture: Vertex AI Vector Search
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
@@ -192,7 +190,3 @@ root_agent = Agent(
 * **The Cause:** If the local Uvicorn server (`adk web`) is abruptly killed (e.g., stopping an infinite loop), the local SQLite database becomes corrupted.
 * **The Fix:** Stop the server, delete the hidden `.adk` folder in your project directory, and restart `adk web`. The server will safely rebuild a clean local memory database.
 ```
-
-***
-
-Now that Level 1 is completely wrapped, documented, and pushed to GitHub, where do we go next? Are we moving into the architecture for permanent cloud memory, or diving into building a custom frontend for this agent?
