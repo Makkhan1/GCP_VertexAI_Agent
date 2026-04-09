@@ -4,22 +4,59 @@ from google.adk.agents import Agent
 from langchain_pinecone import PineconeVectorStore
 from langchain_google_vertexai import VertexAIEmbeddings
 from tavily import TavilyClient
+from langchain_google_vertexai import VertexAIEmbeddings, VectorSearchVectorStore
 
 # Load the .env file
 load_dotenv()
 
-# --- TOOL 1: INTERNAL RAG ---
+# # --- TOOL 1: INTERNAL RAG ---
+# def search_internal_knowledge(query: str) -> str:
+#     """Searches the company's private internal documents for specific facts."""
+#     api_key = os.getenv("PINECONE_API_KEY")
+#     embeddings = VertexAIEmbeddings(model_name="text-embedding-004")
+#     vector_db = PineconeVectorStore(
+#         index_name="gcp-vertex-ai", 
+#         embedding=embeddings,
+#         pinecone_api_key=api_key
+#     )
+#     results = vector_db.similarity_search(query, k=3)
+#     return "\n---\n".join([res.page_content for res in results])
+
+# --- INITIALIZE DATABASE ONCE (Global Scope) ---
+_embeddings = VertexAIEmbeddings(model_name="text-embedding-004")
+
+_vector_db = VectorSearchVectorStore.from_components(
+    project_id=os.getenv("GOOGLE_CLOUD_PROJECT"),
+    region=os.getenv("GOOGLE_CLOUD_LOCATION"),
+    index_id=os.getenv("VERTEX_INDEX_ID"),
+    endpoint_id=os.getenv("VERTEX_ENDPOINT_ID"),
+    embedding=_embeddings,
+    gcs_bucket_name=os.getenv("GCS_BUCKET_NAME")  # <--- THE MISSING PIECE!
+)
+
+# --- TOOL 1: INTERNAL RAG using GCP Vector Search ---
 def search_internal_knowledge(query: str) -> str:
     """Searches the company's private internal documents for specific facts."""
-    api_key = os.getenv("PINECONE_API_KEY")
-    embeddings = VertexAIEmbeddings(model_name="text-embedding-004")
-    vector_db = PineconeVectorStore(
-        index_name="gcp-vertex-ai", 
-        embedding=embeddings,
-        pinecone_api_key=api_key
-    )
-    results = vector_db.similarity_search(query, k=3)
-    return "\n---\n".join([res.page_content for res in results])
+    
+    # 1. Add error handling so a database timeout doesn't crash the whole agent
+    try:
+        results = _vector_db.similarity_search(query, k=3)
+        
+        # 2. Handle empty results gracefully
+        if not results:
+            return "No relevant internal documents found for this query."
+        
+        # 3. Include Source Metadata so the AI can cite its sources!
+        formatted_results = []
+        for res in results:
+            # LangChain's GCSLoader usually saves the filename here
+            source = res.metadata.get("source", "Unknown Internal Document") 
+            formatted_results.append(f"Source: {source}\nContent: {res.page_content}")
+            
+        return "\n---\n".join(formatted_results)
+        
+    except Exception as e:
+        return f"Warning: Could not search internal database due to error: {str(e)}"
 
 # --- TOOL 2: EXTERNAL WEB SEARCH (TAVILY) ---
 def web_search(query: str) -> str:
