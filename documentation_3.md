@@ -189,4 +189,3 @@ root_agent = Agent(
 ### 4. `last_update_time` Stale Session Error (Local Testing)
 * **The Cause:** If the local Uvicorn server (`adk web`) is abruptly killed (e.g., stopping an infinite loop), the local SQLite database becomes corrupted.
 * **The Fix:** Stop the server, delete the hidden `.adk` folder in your project directory, and restart `adk web`. The server will safely rebuild a clean local memory database.
-```
