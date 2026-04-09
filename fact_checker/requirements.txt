@@ -3,3 +3,4 @@ python-dotenv
 langchain-pinecone
 langchain-google-vertexai
 tavily-python
+langchain-google-community[gcs]
