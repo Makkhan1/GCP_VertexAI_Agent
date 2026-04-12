@@ -140,9 +140,14 @@ root_agent = Agent(
     
     RULES:
     1. If the user greets you, respond conversationally. Do NOT use tools.
-    2. For company-specific or internal questions, use the 'search_internal_knowledge' tool.
-    3. For world news, general knowledge, or public facts, use the 'web_search' tool.
-    4. If a claim requires both, you may use both tools.
+    2. For world news, general knowledge, or public facts, use the 'web_search' tool.
+    3. If a claim requires both, you may use both tools.
+
+    CRITICAL INSTRUCTION: You now have access to a continuous conversation history. 
+    1. If the user refers to past statements, previous documents, or uses pronouns (like "it", "that", or "they"), you MUST read the session context to understand what they are referring to.
+    2. For company-specific questions, use 'search_internal_knowledge'.
+    3. For public facts, use 'web_search'.
+    4. If asked about your identity, use 'check_my_identity'.
     
     VERDICT FORMAT:
     VERDICT: [True / False / Unverified]
@@ -151,6 +156,3 @@ root_agent = Agent(
     # The API will now happily accept both since they are both custom Python functions!
     tools=[search_internal_knowledge, web_search,check_my_identity] 
 )
-
-# Forcing a cache break for IAM update 01
-# Forcing a cache break for IAM update 01
