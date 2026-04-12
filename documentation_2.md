@@ -1,12 +1,3 @@
-Here is the complete, production-ready documentation for your **Level 1: Hybrid RAG Architecture**. 
-
-This documentation is designed to either replace your previous `README.md` or serve as a massive "Version 2.0" update. It perfectly captures the "All-Custom Tool" workaround we used to bypass the Vertex AI limitation, making it a brilliant portfolio piece to show off your problem-solving skills.
-
-Copy the markdown below and commit it to your repository!
-
-***
-
-```markdown
 # 🧠 Vertex AI Reasoning Engine: Dual-Engine RAG Fact-Checker
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
