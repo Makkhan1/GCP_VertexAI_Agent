@@ -1,6 +1,6 @@
 # 🧠 Enterprise Agent Memory: Vertex AI Sessions Integration
 
-![Python](https://img. চন্দ্রshields.io/badge/Python-3.10+-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 
 This document outlines the architecture, implementation, and troubleshooting protocols for migrating a stateless LLM agent to a stateful, context-aware AI using **Vertex AI Agent Engine Sessions**.
 
